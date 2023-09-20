@@ -1,0 +1,32 @@
+.header {
+	margin-top: 79px;
+	display: flex;
+	justify-content: space-between;
+	padding: 0 20px 7px 20px;
+	border-bottom: 1px solid #C6C2DE;
+}
+.header__title {
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 29.05px;
+	letter-spacing: 0.1em;
+	color: #6E6893;
+}
+.header__sum{
+	color: #6E6893;
+	font-size: 14px;
+	line-height: 17px;
+	
+}
+.sumIcon {
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 21.78px;
+	color: #6D5BD0;
+}
+.sum{
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 21.78px;
+	color: #6D5BD0;
+}
