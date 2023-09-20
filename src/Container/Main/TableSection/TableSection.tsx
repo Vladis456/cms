@@ -115,41 +115,42 @@ export const TableSection: FC<SetPopupActive & TableProps> = ({ setPopupActive, 
 				})
 					: filteredItems.map(item => {
 						return <tr key={item.id}>
-							<td>{item.id}</td>
-							<td>{item.title}</td>
-							<td>{item.category}</td>
-							<td>{item.units}</td>
-							<td>{item.count}</td>
-							<td>{item.price}</td>
-							<td>{item.discount === 0 ? item.price * item.count : Math.floor((item.price - (item.discount * (1 / 100) * item.price)) * item.count)}</td>
-							<td><img src={noPictureIcon} alt="" /></td>
-							<td data-id={item.id} onClick={async (e) => {
-								const target = e.target as HTMLElement;
-								const itemId = target != document.querySelectorAll(`[data-id="${item.id}"]`)[0] ? target.parentNode?.parentNode?.childNodes[0].textContent : target.parentNode?.childNodes[0].textContent
-								await fetch(`https://imported-ebony-roast.glitch.me/api/goods/${itemId}`, {
-									method: 'GET',
-									headers: {
-										'Content-Type': 'application/json;charset=utf-8'
-									},
-								})
-									.then(response => response.json())
-									.then(data => { setTitle(data.title); setCategory(data.category); setUnits(data.units); setDiscount(data.discount); setDescription(data.description); setCount(data.count); setPrice(data.price); setChecked(data.discount === 0 ? false : true); data.discount !== 0 ? (document.querySelector(`.${popupStyle.checkbox}`) as HTMLInputElement).checked = true : (document.querySelector(`.${popupStyle.checkbox}`) as HTMLInputElement).checked = false; setIsEdit(true); setItemIdToEdit(itemId); setLoading(false); setPopupActive(true); })
-							}}><img src={editIcon} alt="" /></td>
-							<td data-fordelete={item.id} onClick={(e) => {
-								const target = e.target as HTMLElement;
-								const itemId = target != document.querySelectorAll(`[data-fordelete="${item.id}"]`)[0] ? target.parentNode?.parentNode?.childNodes[0].textContent : target.parentNode?.childNodes[0].textContent
-								const copy = data;
-								const filteredCopy = copy.filter(item => item.id !== itemId)
-								fetch(`https://imported-ebony-roast.glitch.me/api/goods/${itemId}`, {
-									method: 'DELETE',
-									headers: {
-										'Content-Type': 'application/json;charset=utf-8'
-									},
-								});
-								setData([...filteredCopy])
-								setUpdate(prev => prev + 1)
-							}}><img src={deleteIcon} alt="" /></td>
-						</tr>
+						<td>{item.id}</td>
+						<td>{item.title}</td>
+						<td>{item.category}</td>
+						<td>{item.units}</td>
+						<td>{item.count}</td>
+						<td>{item.price}</td>
+						<td>{item.discount === 0 ? item.price * item.count : Math.floor((item.price - (item.discount * (1 / 100) * item.price)) * item.count)}</td>
+						<td><img src={noPictureIcon} alt="" /></td>
+						<td data-id={item.id} onClick={(e) => {
+							e.stopPropagation()
+							const target = e.target as HTMLElement;
+							const itemId = target != document.querySelectorAll(`[data-id="${item.id}"]`)[0] ? target.parentNode?.parentNode?.childNodes[0].textContent : target.parentNode?.childNodes[0].textContent
+							fetch(`https://imported-ebony-roast.glitch.me/api/goods/${itemId}`, {
+								method: 'GET',
+								headers: {
+									'Content-Type': 'application/json;charset=utf-8'
+								},
+							})
+								.then(response => response.json())
+								.then(data => { setTitle(data.title); setCategory(data.category); setUnits(data.units); setDiscount(data.discount); setDescription(data.description); setCount(data.count); setPrice(data.price); setChecked(data.discount === 0 ? false : true); data.discount !== 0 ? (document.querySelector(`.${popupStyle.checkbox}`) as HTMLInputElement).checked = true : (document.querySelector(`.${popupStyle.checkbox}`) as HTMLInputElement).checked = false; setIsEdit(true); setItemIdToEdit(itemId);setLoading(false); setPopupActive(true); })
+						}}><img src={editIcon} alt="" /></td>
+						<td data-fordelete={item.id} onClick={async (e) => {
+							const target = e.target as HTMLElement;
+							const itemId = target != document.querySelectorAll(`[data-fordelete="${item.id}"]`)[0] ? target.parentNode?.parentNode?.childNodes[0].textContent : target.parentNode?.childNodes[0].textContent
+							const copy = data;
+							const filteredCopy = copy.filter(item => item.id !== itemId)
+							await fetch(`https://imported-ebony-roast.glitch.me/api/goods/${itemId}`, {
+								method: 'DELETE',
+								headers: {
+									'Content-Type': 'application/json;charset=utf-8'
+								},
+							});
+							setData([...filteredCopy])
+							setUpdate(prev => prev + 2)
+						}}><img src={deleteIcon} alt="" /></td>
+					</tr>
 					})}
 			</tbody>
 		</table>
